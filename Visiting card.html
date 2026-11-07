@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Name – Digital Card</title>
+<meta name="description" content="My digital visiting card: who I am, what I can do, and how to reach me.">
+<meta property="og:title" content="Your Name – Digital Card">
+<meta property="og:description" content="Tap to see who I am and save my contact.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0F3D3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F1F5F3; --surface:#FFFFFF; --ink:#11201F; --muted:#52635F;
+  --brand:#0F3D3E; --brand-ink:#F3EFE4; --accent:#C8963E; --line:#D5DFDB;
+  --radius:18px;
+  --display:"Bricolage Grotesque",system-ui,sans-serif;
+  --body:"Figtree",system-ui,sans-serif;
+}
+:root[data-theme="dark"]{
+  --bg:#0B1514; --surface:#122120; --ink:#E8F0ED; --muted:#9DB2AC;
+  --accent:#E0AE5B; --line:#223836;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0B1514; --surface:#122120; --ink:#E8F0ED; --muted:#9DB2AC;
+    --accent:#E0AE5B; --line:#223836;
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1rem/1.6 var(--body);-webkit-font-smoothing:antialiased}
+.wrap{width:min(100% - 32px,720px);margin-inline:auto}
+h1,h2,h3{font-family:var(--display);line-height:1.15;margin:0}
+h2{font-size:1.5rem;font-weight:700;letter-spacing:-.01em;margin-bottom:14px}
+p{margin:0 0 12px}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:8px}
+section{padding:36px 0 4px}
+.theme-btn{position:fixed;top:12px;right:12px;z-index:5;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;display:grid;place-items:center}
+.theme-btn svg{width:20px;height:20px}
+
+/* ---------- Hero card ---------- */
+header{padding:64px 0 8px;text-align:center}
+.card-wrap{perspective:1100px;width:min(100%,420px);margin:0 auto}
+.tilt{transform-style:preserve-3d;transition:transform .15s ease-out}
+.flip{all:unset;display:block;width:100%;aspect-ratio:1.6;position:relative;cursor:pointer;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.3,.8,.3,1);border-radius:var(--radius)}
+.flip.flipped{transform:rotateY(180deg)}
+.flip:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+.face{position:absolute;inset:0;border-radius:var(--radius);backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;text-align:left;padding:22px;box-shadow:0 22px 40px -18px rgba(8,30,30,.55)}
+.front{background:var(--brand);color:var(--brand-ink);
+  background-image:repeating-radial-gradient(circle at 105% -10%,transparent 0 16px,rgba(243,239,228,.07) 16px 17px);
+  display:flex;flex-direction:column;justify-content:space-between}
+.front .top{display:flex;align-items:center;gap:14px}
+.avatar{width:58px;height:58px;border-radius:50%;background:var(--accent);color:#1b1608;display:grid;place-items:center;font:800 1.3rem var(--display);overflow:hidden;flex:none}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.front h1{font-size:clamp(1.45rem,6.2vw,1.9rem);font-weight:800;letter-spacing:-.02em;color:var(--brand-ink)}
+.front .role{font-size:.95rem;opacity:.85;margin:2px 0 0}
+.front .bottom{display:flex;justify-content:space-between;align-items:end;font-size:.85rem;opacity:.85}
+.hint{display:inline-flex;gap:6px;align-items:center;color:var(--accent);opacity:1;font-weight:600}
+.back{background:#FBF8F0;color:#17302F;transform:rotateY(180deg);display:flex;gap:18px;align-items:center}
+.back .qr-box{width:38%;max-width:150px;aspect-ratio:1;background:#fff;padding:6px;border-radius:10px;border:1px solid #E4DDCB;flex:none}
+.back h3{font-size:1.15rem;font-weight:700;margin-bottom:4px}
+.back p{font-size:.88rem;line-height:1.4;color:#43594F;margin:0}
+.qr-box img,.qr-box canvas{display:block;width:100%;height:auto}
+.status{display:inline-flex;align-items:center;gap:8px;margin:20px auto 0;padding:6px 14px;border-radius:99px;background:var(--surface);border:1px solid var(--line);font-size:.9rem;color:var(--muted)}
+.dot{width:9px;height:9px;border-radius:50%;background:#9AA7A3}
+.status.on .dot{background:#2FA66A;box-shadow:0 0 0 4px rgba(47,166,106,.2)}
+.tagline{font:500 clamp(1.15rem,4.4vw,1.4rem)/1.4 var(--display);margin:22px auto 0;max-width:30ch}
+
+/* ---------- Actions ---------- */
+.actions{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:22px}
+@media(min-width:560px){.actions{grid-template-columns:repeat(4,1fr)}}
+.btn{display:flex;align-items:center;justify-content:center;gap:9px;padding:12px 14px;border-radius:14px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:600 .95rem var(--body);text-decoration:none;cursor:pointer;min-height:48px}
+.btn:hover{border-color:var(--accent)}
+.btn svg,.ico{width:19px;height:19px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.btn.primary{background:var(--brand);color:var(--brand-ink);border-color:var(--brand);grid-column:1/-1}
+@media(min-width:560px){.btn.primary{grid-column:auto}}
+:root[data-theme="dark"] .btn.primary{background:var(--accent);color:#1b1608;border-color:var(--accent)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn.primary{background:var(--accent);color:#1b1608;border-color:var(--accent)}}
+.row2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px}
+
+/* ---------- Content ---------- */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+.objective{border-left:4px solid var(--accent);padding-left:16px;font:500 1.1rem/1.5 var(--display)}
+.links{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.pill{padding:6px 14px;border-radius:99px;border:1px solid var(--line);text-decoration:none;font-size:.92rem;font-weight:500}
+.pill:hover{border-color:var(--accent)}
+.tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.tab{padding:7px 16px;border-radius:99px;border:1px solid var(--line);background:transparent;color:var(--ink);font:600 .9rem var(--body);cursor:pointer}
+.tab[aria-selected="true"]{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+:root[data-theme="dark"] .tab[aria-selected="true"]{background:var(--accent);color:#1b1608;border-color:var(--accent)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tab[aria-selected="true"]{background:var(--accent);color:#1b1608;border-color:var(--accent)}}
+.skill{margin-bottom:14px}
+.skill:last-child{margin-bottom:0}
+.skill .meta{display:flex;justify-content:space-between;font-weight:600;font-size:.95rem;margin-bottom:6px}
+.skill .meta span:last-child{color:var(--muted);font-weight:500}
+.bar{height:8px;border-radius:99px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--accent);border-radius:99px;transition:width 1s cubic-bezier(.3,.8,.3,1)}
+.learning{margin-top:18px;font-size:.95rem;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.chip{padding:4px 12px;border-radius:8px;background:var(--bg);border:1px dashed var(--line);color:var(--ink);font-size:.88rem}
+.timeline{list-style:none;margin:0;padding:0 0 0 22px;border-left:2px solid var(--line)}
+.timeline li{position:relative;padding:0 0 22px 18px}
+.timeline li:last-child{padding-bottom:0}
+.timeline li::before{content:"";position:absolute;left:-30px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--accent);border:3px solid var(--bg)}
+.when{font-size:.85rem;color:var(--muted);font-weight:600}
+.timeline h3{font-size:1.05rem;font-weight:700;margin:2px 0}
+.timeline p{margin:0;color:var(--muted);font-size:.95rem}
+form{display:grid;gap:12px}
+label{font-weight:600;font-size:.9rem;display:grid;gap:6px}
+input,textarea{font:inherit;padding:11px 13px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);width:100%}
+textarea{min-height:96px;resize:vertical}
+.qr-panel{display:grid;gap:18px;justify-items:center;text-align:center}
+.qr-big{width:210px;background:#fff;padding:14px;border-radius:14px;border:1px solid var(--line)}
+.qr-panel input{max-width:440px;text-align:center;font-size:.9rem}
+.note{font-size:.88rem;color:var(--muted);max-width:46ch;margin:0}
+footer{padding:36px 0 48px;text-align:center;color:var(--muted);font-size:.9rem}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,24px);opacity:0;background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:99px;font-weight:600;font-size:.92rem;transition:.3s;pointer-events:none;z-index:9}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .tilt,.flip,.bar i,.toast{transition:none}
+}
+</style>
+</head>
+<body>
+
+<button class="theme-btn" id="themeBtn" aria-label="Switch between light and dark theme" title="Switch theme">
+  <svg viewBox="0 0 24 24" class="ico" id="themeIco"></svg>
+</button>
+
+<header>
+  <div class="wrap">
+    <div class="card-wrap" id="cardWrap">
+      <div class="tilt" id="tilt">
+        <button class="flip" id="flip" aria-pressed="false" aria-label="Visiting card. Press to flip it and show the QR code.">
+          <div class="face front">
+            <div class="top">
+              <div class="avatar" id="avatar"></div>
+              <div>
+                <h1 id="name"></h1>
+                <p class="role" id="role"></p>
+              </div>
+            </div>
+            <div class="bottom">
+              <span id="place"></span>
+              <span class="hint">Tap to flip</span>
+            </div>
+          </div>
+          <div class="face back" aria-hidden="true">
+            <div class="qr-box" id="qrSmall"></div>
+            <div>
+              <h3>Scan to keep my card</h3>
+              <p>Point your phone camera at the code to open this page anywhere.</p>
+            </div>
+          </div>
+        </button>
+      </div>
+    </div>
+    <div class="status" id="status" role="status"><span class="dot"></span><span id="statusText"></span></div>
+    <p class="tagline" id="tagline"></p>
+
+    <div class="actions">
+      <button class="btn primary" id="saveBtn"></button>
+      <a class="btn" id="callBtn"></a>
+      <a class="btn" id="waBtn" target="_blank" rel="noopener"></a>
+      <a class="btn" id="mailBtn"></a>
+    </div>
+    <div class="row2">
+      <button class="btn" id="shareBtn"></button>
+      <a class="btn" id="resumeBtn">cv.pdf</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section id="about">
+    <h2>About me</h2>
+    <div class="panel">
+      <div id="aboutText"></div>
+      <div class="links" id="links"></div>
+    </div>
+  </section>
+
+  <section id="objective">
+    <h2>What I'm looking for</h2>
+    <div class="panel"><p class="objective" id="objectiveText" style="margin:0"></p></div>
+  </section>
+
+  <section id="skills">
+    <h2>Skills</h2>
+    <div class="panel">
+      <div class="tabs" role="tablist" id="tabs" aria-label="Skill groups"></div>
+      <div id="skillList" role="tabpanel"></div>
+      <div class="learning" id="learning"></div>
+    </div>
+  </section>
+
+  <section id="journey">
+    <h2>My journey</h2>
+    <div class="panel"><ol class="timeline" id="timeline"></ol></div>
+  </section>
+
+  <section id="contact">
+    <h2>Send me a message</h2>
+    <div class="panel">
+      <form id="msgForm">
+        <label>Your name<input id="fName" autocomplete="name" required></label>
+        <label>Message<textarea id="fMsg" required placeholder="Hi, I found your card and wanted to talk about..."></textarea></label>
+        <div class="row2" style="margin-top:0">
+          <button class="btn primary" type="submit" data-via="wa" style="grid-column:auto">Send on WhatsApp</button>
+          <button class="btn" type="submit" data-via="mail">Send by email</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section id="share">
+    <h2>Your QR code</h2>
+    <div class="panel qr-panel">
+      <div class="qr-big" id="qrBig"></div>
+      <label style="width:100%;max-width:440px">Page address in the code
+        <input id="urlInput" inputmode="url" spellcheck="false">
+      </label>
+      <button class="btn primary" id="dlQr" style="grid-column:auto"></button>
+      <p class="note" id="qrNote"></p>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap"><span id="foot"></span></div></footer>
+<div class="toast" id="toast" role="status"></div>
+
+<noscript><p style="text-align:center;padding:24px">This card needs JavaScript to show its content.</p></noscript>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+/* =====================================================================
+   EDIT THIS BLOCK ONLY. Everything on the page is built from it.
+   ===================================================================== */
+const C = {
+  name: "Umesh Udayan",
+  role: "IT Manager",
+  location: "Pathanthitta, Kerala, India",
+  tagline: "A enthusiastic person who loves to learn new things and explore new technologies.",
+  email: "Umeshudayankurampala@gmail.com",
+  phone: "7510924015",          // with country code, no spaces
+  whatsapp: "7510924015",        // country code + number, digits only
+  photo: "",                       // e.g. "me.jpg" (put the file next to index.html). Empty = initials
+  resume: "cv.pdf",            // put your PDF next to index.html. Use "" to hide the button
+  links: [
+    { label: "LinkedIn", url: "https://www.linkedin.com/in/umeshudayankurampala/" },
+    { label: "GitHub",   url: "https://github.com/umeshudayankurampala" }
+  ],
+  about: [
+    "An IT manager with 5 year experince in the field of IT and Networking. I have a strong background in managing IT infrastructure, implementing security protocols, and leading technical teams to achieve organizational goals",
+    
+  ],
+  objective: "Learning new technologies and expanding my knowledge in the field of IT.",
+  skills: [
+    { name: "Networking",   level: 80, group: "Core" },
+    { name: "Hardware Support",   level: 70, group: "Core" },
+    { name: "Firewall & Security", level: 60, group: "Core" },
+    { name: "Communication",  level: 85, group: "People" },
+    { name: "Teamwork",       level: 80, group: "People" },
+    { name: "Time management", level: 75, group: "People" }
+  ],
+  learning: ["Artificial Intelligence", "Cybersecurity"],
+  journey: [
+    { when: "2025 – now", title: "IT Manager", place: "Blanket Hotel and Resorts",},
+    { when: "2023 – 2025", title: "IT Manager", place: "Niraamaya Life Pvt Ltd", },
+    { when: "2022 – 2023", title: "IT Executive", place: "La Classic", },
+  ],
+  hours: { start: 9, end: 21, tz: "Asia/Kolkata" }   // when you usually reply (24-hour clock)
+};/* ===================================================================== */
+
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const store = {
+  get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } },
+  set(k,v){ try { localStorage.setItem(k,v); } catch(e){} }
+};
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---- icons ---- */
+const P = {
+  save:['M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2','M8.5 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z','M20 8v6M23 11h-6'],
+  phone:['M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z'],
+  chat:['M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z'],
+  mail:['M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z','M22 6l-10 7L2 6'],
+  share:['M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8','M16 6l-4-4-4 4','M12 2v13'],
+  file:['M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z','M14 2v6h6','M16 13H8','M16 17H8'],
+  down:['M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4','M7 10l5 5 5-5','M12 15V3'],
+  moon:['M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z'],
+  sun:['M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10z','M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42']
+};
+const ico = n => `<svg viewBox="0 0 24 24" class="ico" aria-hidden="true">${P[n].map(d => `<path d="${d}"/>`).join('')}</svg>`;
+
+/* ---- theme ---- */
+function applyTheme(t){
+  document.documentElement.setAttribute('data-theme', t);
+  $('#themeIco').innerHTML = P[t === 'dark' ? 'sun' : 'moon'].map(d => `<path d="${d}"/>`).join('');
+}
+(function(){
+  const saved = store.get('card-theme');
+  applyTheme(saved || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+  $('#themeBtn').addEventListener('click', () => {
+    const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    applyTheme(next); store.set('card-theme', next);
+  });
+})();
+
+/* ---- toast ---- */
+let tt;
+function toast(msg){
+  const el = $('#toast'); el.textContent = msg; el.classList.add('show');
+  clearTimeout(tt); tt = setTimeout(() => el.classList.remove('show'), 2200);
+}
+
+/* ---- fill content ---- */
+const initials = C.name.split(/\s+/).filter(Boolean).slice(0,2).map(w => w[0].toUpperCase()).join('');
+document.title = C.name + ' – Digital Card';
+$('#name').textContent = C.name;
+$('#role').textContent = C.role;
+$('#place').textContent = C.location;
+$('#tagline').textContent = C.tagline;
+$('#avatar').innerHTML = C.photo ? `<img src="${esc(C.photo)}" alt="">` : esc(initials);
+$('#saveBtn').innerHTML = ico('save') + 'Save contact';
+$('#callBtn').innerHTML = ico('phone') + 'Call'; $('#callBtn').href = 'tel:' + C.phone;
+$('#waBtn').innerHTML = ico('chat') + 'WhatsApp'; $('#waBtn').href = 'https://wa.me/' + C.whatsapp;
+$('#mailBtn').innerHTML = ico('mail') + 'Email'; $('#mailBtn').href = 'mailto:' + C.email;
+$('#shareBtn').innerHTML = ico('share') + 'Share this card';
+if (C.resume){ $('#resumeBtn').innerHTML = ico('file') + 'Resume (PDF)'; $('#resumeBtn').href = C.resume; $('#resumeBtn').target = '_blank'; $('#resumeBtn').rel = 'noopener'; }
+else { $('#resumeBtn').remove(); $('#shareBtn').parentElement.style.gridTemplateColumns = '1fr'; }
+$('#aboutText').innerHTML = C.about.map(t => `<p>${esc(t)}</p>`).join('');
+$('#links').innerHTML = C.links.map(l => `<a class="pill" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join('');
+$('#objectiveText').textContent = C.objective;
+$('#learning').innerHTML = C.learning.length ? `Learning right now<div class="chips">${C.learning.map(x => `<span class="chip">${esc(x)}</span>`).join('')}</div>` : '';
+$('#timeline').innerHTML = C.journey.map(j => `<li><div class="when">${esc(j.when)}</div><h3>${esc(j.title)}</h3><p>${esc(j.place)}${j.detail ? ' – ' + esc(j.detail) : ''}</p></li>`).join('');
+$('#dlQr').innerHTML = ico('down') + 'Download QR code (PNG)';
+$('#foot').textContent = '© ' + new Date().getFullYear() + ' ' + C.name;
+
+/* ---- card flip + tilt ---- */
+const flip = $('#flip');
+function setFlip(on){
+  flip.classList.toggle('flipped', on);
+  flip.setAttribute('aria-pressed', on);
+  $('.back').setAttribute('aria-hidden', !on);
+}
+flip.addEventListener('click', () => setFlip(!flip.classList.contains('flipped')));
+document.addEventListener('keydown', e => { if (e.key === 'Escape') setFlip(false); });
+if (!reduceMotion){
+  const wrap = $('#cardWrap'), tilt = $('#tilt');
+  wrap.addEventListener('pointermove', e => {
+    if (e.pointerType !== 'mouse') return;
+    const r = wrap.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+    tilt.style.transform = `rotateX(${(-y * 10).toFixed(2)}deg) rotateY(${(x * 12).toFixed(2)}deg)`;
+  });
+  wrap.addEventListener('pointerleave', () => { tilt.style.transform = ''; });
+}
+
+/* ---- live availability ---- */
+function tick(){
+  const now = new Date();
+  const time = new Intl.DateTimeFormat('en-IN', { hour:'numeric', minute:'2-digit', hour12:true, timeZone:C.hours.tz }).format(now);
+  const h = Number(new Intl.DateTimeFormat('en-GB', { hour:'numeric', hour12:false, timeZone:C.hours.tz }).format(now)) % 24;
+  const on = h >= C.hours.start && h < C.hours.end;
+  $('#status').classList.toggle('on', on);
+  $('#statusText').textContent = (on ? 'Available now' : 'Away, I reply when I am back') + ' · my time ' + time;
+}
+tick(); setInterval(tick, 30000);
+
+/* ---- save contact (vCard) ---- */
+$('#saveBtn').addEventListener('click', () => {
+  const parts = C.name.trim().split(/\s+/);
+  const last = parts.length > 1 ? parts.pop() : '';
+  const lines = ['BEGIN:VCARD','VERSION:3.0',
+    `N:${last};${parts.join(' ')};;;`, `FN:${C.name}`, `TITLE:${C.role}`,
+    `TEL;TYPE=CELL:${C.phone}`, `EMAIL;TYPE=INTERNET:${C.email}`,
+    `URL:${currentUrl()}`, ...C.links.map(l => `URL:${l.url}`),
+    `ADR;TYPE=HOME:;;${C.location};;;;`, 'END:VCARD'];
+  const blob = new Blob([lines.join('\r\n')], { type:'text/vcard' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = C.name.replace(/\s+/g, '_') + '.vcf';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  toast('Contact file downloaded. Open it to save.');
+});
+
+/* ---- share ---- */
+$('#shareBtn').addEventListener('click', async () => {
+  const data = { title: C.name + ' – Digital Card', text: C.tagline, url: currentUrl() };
+  if (navigator.share){ try { await navigator.share(data); } catch(e){} return; }
+  try { await navigator.clipboard.writeText(data.url); toast('Link copied'); }
+  catch(e){ toast('Copy this address: ' + data.url); }
+});
+
+/* ---- skills with groups ---- */
+const groups = [...new Set(C.skills.map(s => s.group))];
+let activeGroup = groups[0];
+function renderSkills(animate){
+  $('#tabs').innerHTML = groups.map(g => `<button class="tab" role="tab" aria-selected="${g === activeGroup}" data-g="${esc(g)}">${esc(g)}</button>`).join('');
+  $('#skillList').innerHTML = C.skills.filter(s => s.group === activeGroup).map(s =>
+    `<div class="skill"><div class="meta"><span>${esc(s.name)}</span><span>${s.level}%</span></div><div class="bar"><i data-w="${s.level}"></i></div></div>`).join('');
+  const fill = () => document.querySelectorAll('.bar i').forEach(i => i.style.width = i.dataset.w + '%');
+  animate && !reduceMotion ? requestAnimationFrame(() => requestAnimationFrame(fill)) : fill();
+}
+$('#tabs').addEventListener('click', e => {
+  const b = e.target.closest('.tab'); if (!b) return;
+  activeGroup = b.dataset.g; renderSkills(true);
+});
+renderSkills(false);
+if (!reduceMotion && 'IntersectionObserver' in window){
+  document.querySelectorAll('.bar i').forEach(i => i.style.width = '0');
+  new IntersectionObserver((en, ob) => {
+    if (en[0].isIntersecting){ document.querySelectorAll('.bar i').forEach(i => i.style.width = i.dataset.w + '%'); ob.disconnect(); }
+  }, { threshold:.3 }).observe($('#skills'));
+}
+
+/* ---- contact form ---- */
+$('#msgForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const via = e.submitter && e.submitter.dataset.via;
+  const name = $('#fName').value.trim(), msg = $('#fMsg').value.trim();
+  const text = `Hi ${C.name.split(' ')[0]}, this is ${name}. ${msg}`;
+  if (via === 'wa') window.open('https://wa.me/' + C.whatsapp + '?text=' + encodeURIComponent(text), '_blank', 'noopener');
+  else location.href = 'mailto:' + C.email + '?subject=' + encodeURIComponent('Hello from ' + name) + '&body=' + encodeURIComponent(msg);
+});
+
+/* ---- QR codes ---- */
+function currentUrl(){ return ($('#urlInput') && $('#urlInput').value.trim()) || location.href.split('#')[0]; }
+function drawQR(el, text, size){
+  el.innerHTML = '';
+  if (typeof QRCode === 'undefined'){ el.textContent = 'QR code could not load. Check your internet connection.'; return; }
+  new QRCode(el, { text, width:size, height:size, colorDark:'#0F3D3E', colorLight:'#ffffff', correctLevel: QRCode.CorrectLevel.M });
+}
+function refreshQR(){
+  const url = currentUrl();
+  drawQR($('#qrBig'), url, 512);
+  drawQR($('#qrSmall'), url, 256);
+  const local = /^(file:|http:\/\/(localhost|127\.))/.test(url);
+  $('#qrNote').textContent = local
+    ? 'This address only works on your own device. After you host the site, paste the live address above and download the code again.'
+    : 'Scan this code with a phone camera to test it before you print it.';
+}
+$('#urlInput').value = location.href.split('#')[0];
+$('#urlInput').addEventListener('input', refreshQR);
+refreshQR();
+
+$('#dlQr').addEventListener('click', () => {
+  const src = $('#qrBig canvas'); if (!src){ toast('QR code is not ready'); return; }
+  const pad = 48, out = document.createElement('canvas');
+  out.width = out.height = src.width + pad * 2;
+  const ctx = out.getContext('2d');
+  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, out.width, out.height);
+  ctx.drawImage(src, pad, pad);
+  const a = document.createElement('a');
+  a.href = out.toDataURL('image/png');
+  a.download = C.name.replace(/\s+/g, '_') + '_QR.png';
+  document.body.appendChild(a); a.click(); a.remove();
+});
+</script>
+</body>
+</html>
